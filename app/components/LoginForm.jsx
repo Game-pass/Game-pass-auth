@@ -5,12 +5,10 @@ import Image from "next/image";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingAction, setLoadingAction] = useState(null);
 
   const handleSubmit = async (formData) => {
     const action = formData.get('action');
     setIsLoading(true);
-    setLoadingAction(action);
     
     try {
       await doSocialLogin(formData);
@@ -18,22 +16,23 @@ const LoginForm = () => {
       console.error('Login error:', error);
     } finally {
       setIsLoading(false);
-      setLoadingAction(null);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
+    <div className="flex items-center justify-center p-8">
       <div className="w-full max-w-md">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-          <p className="text-gray-400">Sign in to your account to continue</p>
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-black text-white mb-3 tracking-tight">
+            Welcome
+          </h1>
+          <p className="text-gray-400 text-lg font-medium">Continue your journey</p>
         </div>
 
-        {/* Login Form */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-2xl">
-          <form action={handleSubmit} className="space-y-4">
+        {/* Login Card */}
+        <div className="bg-gray-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
+          <form action={handleSubmit}>
             
             {/* Google Button */}
             <button
@@ -41,74 +40,60 @@ const LoginForm = () => {
               name="action"
               value="google"
               disabled={isLoading}
-              className="relative w-full group overflow-hidden rounded-xl bg-white hover:bg-gray-50 text-gray-900 font-semibold py-4 px-6 transition-all duration-200 ease-in-out transform hover:scale-[1.02] hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="relative w-full group overflow-hidden rounded-2xl bg-white text-gray-900 font-bold py-5 px-8 transition-all duration-500 ease-out transform hover:scale-[1.03] hover:-translate-y-1 hover:shadow-2xl hover:shadow-white/20 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none active:scale-[0.98] active:translate-y-0"
             >
-              <div className="flex items-center justify-center gap-3">
-                {loadingAction === 'google' ? (
-                  <div className="w-5 h-5 border-2 border-gray-400 border-t-gray-900 rounded-full animate-spin" />
+              {/* Ripple effect background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-50 to-white rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              {/* Floating particles effect */}
+              <div className="absolute inset-0 overflow-hidden rounded-2xl">
+                <div className="absolute -top-1 -left-1 w-3 h-3 bg-blue-400/30 rounded-full animate-ping" />
+                <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-400/30 rounded-full animate-ping animation-delay-300" />
+                <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-yellow-400/30 rounded-full animate-ping animation-delay-500" />
+                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400/30 rounded-full animate-ping animation-delay-700" />
+              </div>
+              
+              <div className="relative flex items-center justify-center gap-4 z-10">
+                {isLoading ? (
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 bg-gray-600 rounded-full animate-bounce" />
+                    <div className="w-2 h-2 bg-gray-600 rounded-full animate-bounce animation-delay-100" />
+                    <div className="w-2 h-2 bg-gray-600 rounded-full animate-bounce animation-delay-200" />
+                  </div>
                 ) : (
                   <Image
                     src="/google2.png"
                     alt="Google logo"
-                    width={20}
-                    height={20}
+                    width={24}
+                    height={24}
+                    className="group-hover:scale-110 transition-transform duration-300"
                   />
                 )}
-                <span className="text-sm">
-                  {loadingAction === 'google' ? 'Signing in...' : 'Continue with Google'}
+                <span className="text-lg font-bold tracking-wide">
+                  {isLoading ? 'Connecting' : 'Continue with Google'}
                 </span>
               </div>
+              
+              {/* Subtle inner shadow */}
+              <div className="absolute inset-0 rounded-2xl shadow-inner shadow-gray-200/50 group-hover:shadow-gray-300/70 transition-shadow duration-500" />
             </button>
-
-            {/* Divider */}
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-700"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-gray-900 text-gray-500">or</span>
+            
+            {/* Decorative elements */}
+            <div className="flex justify-center mt-8">
+              <div className="flex gap-2">
+                <div className="w-2 h-2 bg-gray-600 rounded-full animate-pulse" />
+                <div className="w-2 h-2 bg-gray-500 rounded-full animate-pulse animation-delay-200" />
+                <div className="w-2 h-2 bg-gray-600 rounded-full animate-pulse animation-delay-400" />
               </div>
             </div>
-
-            {/* GitHub Button */}
-            <button
-              type="submit"
-              name="action"
-              value="github"
-              disabled={isLoading}
-              className="relative w-full group overflow-hidden rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-gray-600 text-white font-semibold py-4 px-6 transition-all duration-200 ease-in-out transform hover:scale-[1.02] hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            >
-              <div className="flex items-center justify-center gap-3">
-                {loadingAction === 'github' ? (
-                  <div className="w-5 h-5 border-2 border-gray-500 border-t-white rounded-full animate-spin" />
-                ) : (
-                  <Image
-                    src="/github-mark-white.svg"
-                    alt="GitHub logo"
-                    width={20}
-                    height={20}
-                  />
-                )}
-                <span className="text-sm">
-                  {loadingAction === 'github' ? 'Signing in...' : 'Continue with GitHub'}
-                </span>
-              </div>
-            </button>
           </form>
-
-          {/* Footer */}
-          <div className="mt-8 pt-6 border-t border-gray-800">
-            <p className="text-center text-xs text-gray-500">
-              By continuing, you agree to our{' '}
-              <a href="#" className="text-blue-400 hover:text-blue-300 underline">
-                Terms of Service
-              </a>{' '}
-              and{' '}
-              <a href="#" className="text-blue-400 hover:text-blue-300 underline">
-                Privacy Policy
-              </a>
-            </p>
-          </div>
+        </div>
+        
+        {/* Bottom text */}
+        <div className="text-center mt-8">
+          <p className="text-gray-500 text-sm font-medium">
+            Secure authentication powered by Google
+          </p>
         </div>
       </div>
     </div>
