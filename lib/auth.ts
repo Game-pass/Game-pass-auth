@@ -5,8 +5,8 @@ export const { handlers
   : { GET, POST }, auth, signIn, signOut } = NextAuth({
   providers: [
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: "1056640800223-90sn7jqc8tl01votnqqvivchsoh0fdkc.apps.googleusercontent.com",
+      clientSecret: "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",
       authorization: {
         params: {
           prompt: "consent",
